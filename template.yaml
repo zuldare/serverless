@@ -91,31 +91,31 @@ Resources:
             Path: /api/v1/books
             Method: get
 
-    GetBookById:
-      Type: AWS::Serverless::Function
-      Properties:
-        CodeUri: serverless/
-        Handler: books/getBookById.handler
-        Runtime: nodejs14.x
-        Events:
-          GetAuthors:
-            Type: Api
-            Properties:
-              Path: /api/v1/books/{id}
-              Method: get
+  GetBookById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/getBookById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books/{id}
+            Method: get
 
-    DeleteBookById:
-      Type: AWS::Serverless::Function
-      Properties:
-        CodeUri: serverless/
-        Handler: authors/deleteBookById.handler
-        Runtime: nodejs14.x
-        Events:
-          GetAuthors:
-            Type: Api
-            Properties:
-              Path: /api/v1/books/{id}
-              Method: delete
+  DeleteBookById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/deleteBookById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books/{id}
+            Method: delete
 
 Outputs:
   HelloWorldApi:

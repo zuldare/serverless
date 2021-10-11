@@ -1,9 +1,10 @@
 const uuid = require('uuid');
+const { docClient } = require('../configuration/dbConnection');
 
 let response;
 
 exports.handler = async (event, context, callback) => {
-
+    console.log("POST");
     let data = JSON.parse(event.body);
     const id = uuid
 
