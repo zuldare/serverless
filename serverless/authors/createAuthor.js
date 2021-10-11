@@ -13,14 +13,13 @@ exports.handler = async (event, context, callback) => {
         TableName: table,
         Item: {
             "authorid": id,
-            "name": data.name,
+            "authorname": data.authorname,
             "biography": data.biography,
             "birthYear": data.birthYear
         }
     }
 
     try {
-        console.log('Before ');
         const res = await docClient.put(params).promise();
         res.id = id
         sendResponse(200, res, callback);

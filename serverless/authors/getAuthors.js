@@ -1,18 +1,19 @@
-let response;
+const { docClient } = require('../configuration/dbConnection');
+const { sendResponse } = require('../sendResponse');
+const table = 'authors'
 
 exports.handler = async(event, context, callback) => {
+
     try {
-        response = {
-            'statusCode': 200,
-            'body': JSON.stringify({
-                message: 'get Authors',
-                // location: ret.data.trim()
-            })
+        const params = {
+            TableName: table,
+            ProjectionExpression: "authorid, authorname, biography, birthYear"
         }
-    }  catch (err) {
-        console.log(err);
+        const res = await docClient.scan(params).promise();
+        sendResponse(200, res.Items, callback);
+    } catch (err) {
+        sendResponse(500, err, callback);
         return err;
     }
 
-    return response
 };
