@@ -13,7 +13,7 @@ exports.handler = async (event, context, callback) => {
             }
         };
 
-        const resAuthor = await docClient.scan(params).promise();
+        const resAuthor = await docClient.get(params).promise();
 
         if (resAuthor.Count !== 0){
             const res = await docClient.delete(params).promise();
