@@ -28,21 +28,4 @@ exports.handler = async (event, context, callback) => {
         sendResponse(500, err, callback);
         return err;
     }
-
 }
-
-    // try {
-    //     response = {
-    //         'statusCode': 200,
-    //         'body': JSON.stringify({
-    //             message: 'post Author ' + data.name + '  ' +  event.body.toString()
-    //             // location: ret.data.trim()
-    //         })
-    //     }
-    // }  catch (err) {
-    //     console.log(err);
-    //     return err;
-    // }
-    //
-    // return response
-    // };
