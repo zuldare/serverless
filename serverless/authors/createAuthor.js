@@ -6,7 +6,6 @@ const table = 'authors'
 exports.handler = async (event, context, callback) => {
     let data = JSON.parse(event.body);
 
-    console.log('Data : ' + data.toString());
     const id = uuid.v1();
 
     const params = {
