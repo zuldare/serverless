@@ -48,3 +48,28 @@ la DynamoDB.
    sam init
     ```
 2. Creación de las funciones necesarias, modificación de templates, etc hasta crear la estructura anteriormente descrita.
+
+3. Construcción de la app
+   ```shell
+   sam build  
+   ```
+4. Arrancar DynamoDB en modo local
+    ```shell
+    docker run -p 8000:8000 amazon/dynamodb-local
+    ```
+5. Crear tabla authors
+    ```shell
+    aws dynamodb create-table --table-name authors --attribute-definitions AttributeName=authorid,AttributeType=S --key-schema AttributeName=authorid,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
+    ```
+6. Crear tabla books
+   ```shell
+     aws dynamodb create-table --table-name books --attribute-definitions AttributeName=bookid,AttributeType=S --key-schema AttributeName=bookid,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
+   ```
+7. Crear tabla reviews
+   ```shell
+        aws dynamodb create-table --table-name reviews --attribute-definitions AttributeName=reviewid,AttributeType=S --key-schema AttributeName=reviewid,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
+   ```
+8. Lanzamos la aplicación en local con la configuración correspondiente
+    ```shell
+    sam local start-api --env-vars env/env.json
+    ```
