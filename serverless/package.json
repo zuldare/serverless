@@ -1,0 +1,10 @@
+{
+  "name": "serverless",
+  "version": "1.0.0",
+  "description": "Practica Recuperación Serverless",
+  "author": "SAM CLI",
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "aws-sdk": "^2.1004.0"
+  }
+}

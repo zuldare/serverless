@@ -1,0 +1,149 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  serverless
+
+  Sample SAM Template for serverless
+
+Globals:
+  Function:
+    Timeout: 3
+
+
+Resources:
+  #  AUTHORS
+  GetAuthors:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/getAuthors.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors
+            Method: get
+
+  GetAuthorById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/getAuthorById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors/{id}
+            Method: get
+
+  DeleteAuthorById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/deleteAuthorById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors/{id}
+            Method: delete
+
+  CreateAuthor:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/createAuthor.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors
+            Method: post
+
+# BOOKS
+  CreateBook:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/createBook.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books
+            Method: post
+
+  GetBooks:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/getBooks.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books
+            Method: get
+
+    GetBookById:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: serverless/
+        Handler: books/getBookById.handler
+        Runtime: nodejs14.x
+        Events:
+          GetAuthors:
+            Type: Api
+            Properties:
+              Path: /api/v1/books/{id}
+              Method: get
+
+    DeleteBookById:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: serverless/
+        Handler: authors/deleteBookById.handler
+        Runtime: nodejs14.x
+        Events:
+          GetAuthors:
+            Type: Api
+            Properties:
+              Path: /api/v1/books/{id}
+              Method: delete
+
+Outputs:
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorldFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldFunction.Arn
+  HelloWorldFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn
+
+
+  AuthorsApi:
+    Description: "API Gateway endpoint URL for Authors API"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/api/v1/authors/"
+
+  BooksApi:
+    Description: "API Gateway endpoint URL for Authors API"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/api/v1/books/"
+
+
+#
+#
+#  GetAuthors:
+#    Description: "GetAuthors Lambda Function ARN"
+#    Value: !GetAtt GetAuthors.Arn
+#
+#  GetAuthorById:
+#    Description: "GetAuthor By id Lambda Function ARN"
+#    Value: !GetAtt GetAuthorById.Arn
