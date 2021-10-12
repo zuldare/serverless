@@ -1,7 +1,7 @@
 
 const { docClient } = require('../configuration/dbConnection');
 const { sendResponse } = require('../sendResponse');
-const tableReviews = 'books';
+const tableReviews = 'reviews';
 
 exports.handler = async (event, context, callback) => {
 
@@ -9,15 +9,15 @@ exports.handler = async (event, context, callback) => {
         const params = {
             TableName: tableReviews,
             Key: {
-                "bookid": event.pathParameters.id
+                "reviewid": event.pathParameters.id
             }
         };
 
-        const resBook = await docClient.get(params).promise();
+        const resReview = await docClient.get(params).promise();
 
-        if (resBook.Count !== 0){
+        if (resReview.Count !== 0){
             const res = await docClient.delete(params).promise();
-            sendResponse(200, resBook.Item.bookid, callback);
+            sendResponse(200, resReview.Item.reviewid, callback);
         } else {
             sendResponse(404, 'Not found', callback);
         }
