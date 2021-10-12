@@ -70,7 +70,21 @@ la DynamoDB.
      aws dynamodb create-table --table-name reviews --attribute-definitions AttributeName=reviewid,AttributeType=S --key-schema AttributeName=reviewid,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
    ```
 
-9. Lanzamos la aplicación en local con la configuración correspondiente
+8. Lanzamos la aplicación en local con la configuración correspondiente
     ```shell
     sam local start-api --env-vars env/env.json
     ```
+9. Se comprueba que ejecutando en local las peticiones postman funcionan correctamente
+10. Se despliega la aplicación en AWS
+    ```shell
+    sam deploy --guided
+    ```
+11. Una vez probados los endpoints se debe borrar el stack:
+    * Desde la consola AWS se vacían los buckets creados
+    * Desde la consola AWS se borran los stacks creados
+    * Desde la consola AWS se borran los *logs groups*
+    * Lanzamos el siguiente comando desde AWS Cli 
+    ```shell
+    aws cloudformation delete-stack  --stack-name sam-app --region us-east-1
+    ```
+    * El stack interno se deberá borrar a mano desde la consola AWS

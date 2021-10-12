@@ -433,7 +433,7 @@ Outputs:
     Value: !GetAtt GetBookById.Arn
   GetBookByIdIamRole:
     Description: "Implicit IAM Role created for GetBookById"
-    Value: !GetAtt GetBookByIddRole.Arn
+    Value: !GetAtt GetBookByIdRole.Arn
 
   DeleteBookById:
     Description: "DeleteBookById Lambda Function ARN"
