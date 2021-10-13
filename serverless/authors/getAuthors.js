@@ -9,10 +9,12 @@ exports.handler = async(event, context, callback) => {
             TableName: table,
             ProjectionExpression: "authorid, authorname, biography, birthYear"
         }
+
         const res = await docClient.scan(params).promise();
         sendResponse(200, res.Items, callback);
     } catch (err) {
         sendResponse(500, err, callback);
+        console.log("Error " + err);
         return err;
     }
 
