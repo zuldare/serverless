@@ -13,32 +13,40 @@ exports.handler = async (event, context, callback) => {
                 "bookid": bookId
             }
         };
-        const res = await docClient.get(params).promise();
+        const resBooks = await docClient.get(params).promise();
+
+        if (resBooks.Item === undefined){
+            sendResponse(404, 'Book ' + bookId + ' not found', callback);
+        }
 
         // Authors
         params = {
             TableName: tableAuthors,
             Key: {
-                "authorid": res.Item.authorid,
-
+                "authorid": resBooks.Item.authorid
             }
         };
         const resAuthor = await docClient.get(params).promise();
 
+// TODO NAT!!!!
         // Review
-        params = {
-            TableName: tableReviews,
-            Key: {
-                "bookid": res.Item.bookId,
-            }
-        };
-       const resReview = await docClient.get(params).promise();
+       //  params = {
+       //      TableName: tableReviews,
+       //      ExpressionAttributeValues: {
+       //          ':b': bookId
+       //      },
+       //      Key: {
+       //          "reviewid": reviewid
+       //      },
+       //      KeyConditionExpression: 'bookid = :b'
+       //  };
+       // const resReview = await docClient.get(params).promise();
 
 
        const newResponse = {
-           book: res.Item,
+           book: resBooks.Item,
            author: resAuthor.Item,
-           reviews: resReview.Item
+          // reviews: resReview.Item
        };
 
         sendResponse(200, newResponse, callback);

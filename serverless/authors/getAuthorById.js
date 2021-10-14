@@ -17,7 +17,7 @@ exports.handler = async (event, context, callback) => {
 
        params = {
            TableName: tableBooks,
-           ProjectionExpression: "authorid"
+           ProjectionExpression: "bookid, title, summary, publisher, publishYear, authorid"
        }
        const resBook = await docClient.scan(params).promise();
 
