@@ -1,0 +1,277 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  serverless
+
+  Sample SAM Template for serverless
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: nodejs14.x
+
+Resources:
+
+  # =========
+  # DYNAMODB
+  # =========
+  authorsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: authors
+      AttributeDefinitions:
+        - AttributeName: authorid
+          AttributeType: S
+      KeySchema:
+        - AttributeName: authorid
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  BooksTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: books
+      AttributeDefinitions:
+        - AttributeName: bookid
+          AttributeType: S
+      KeySchema:
+        - AttributeName: bookid
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  ReviewsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: reviews
+      AttributeDefinitions:
+        - AttributeName: reviewid
+          AttributeType: S
+      KeySchema:
+        - AttributeName: reviewid
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  # =========
+  # FUNCTIONS
+  # =========
+  GetAuthors:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/getAuthors.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors
+            Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref authorsTable
+
+  CreateAuthor:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/createAuthor.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref authorsTable
+
+  GetAuthorById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/getAuthorById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthorById:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors/{id}
+            Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref authorsTable
+
+  DeleteAuthorById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: authors/deleteAuthorById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/authors/{id}
+            Method: delete
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref authorsTable
+
+  # BOOKS
+  CreateBook:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/createBook.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref BooksTable
+
+  GetBooks:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/getBooks.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books
+            Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref BooksTable
+
+  GetBookById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/getBookById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books/{id}
+            Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref BooksTable
+
+  DeleteBookById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: books/deleteBookById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/books/{id}
+            Method: delete
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref BooksTable
+
+  # REVIEWS
+  CreateReview:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: reviews/createReview.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/reviews
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref BooksTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewsTable
+
+  DeleteReviewById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: reviews/deleteReviewById.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/reviews/{id}
+            Method: delete
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewsTable
+
+  GetReviews:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: serverless/
+      Handler: reviews/getReviews.handler
+      Runtime: nodejs14.x
+      Events:
+        GetAuthors:
+          Type: Api
+          Properties:
+            Path: /api/v1/reviews
+            Method: get
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewsTable
+
+Outputs:
+
+  # AUTHORS
+  AuthorsApi:
+    Description: "API Gateway endpoint URL for Authors API"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/api/v1/authors/"
+
+  GetAuthors:
+    Description: "GetAuthors lambda function ARN"
+    Value: !GetAtt GetAuthors.Arn
+  GetAuthorsIamRole:
+    Description: "GetAuthors role for function GetAuthors"
+    Value: !GetAtt GetAuthorsRole.Arn
+
+  GetAuthorById:
+    Description: "GetAuthorById Lambda Function ARN"
+    Value: !GetAtt GetAuthorById.Arn
+  GetAuthorByIdIamRole:
+    Description: "Implicit IAM Role created for GetAuthorById"
+    Value: !GetAtt GetAuthorByIdRole.Arn
+
+  DeleteAuthorById:
+    Description: "DeleteAuthorById Lambda Function ARN"
+    Value: !GetAtt DeleteAuthorById.Arn
+  DeleteAuthorByIdIamRole:
+    Description: "Implicit IAM Role created for DeleteAuthorById"
+    Value: !GetAtt DeleteAuthorByIdRole.Arn
+
+  CreateAuthor:
+    Description: "CreateAuthor Lambda Function ARN"
+    Value: !GetAtt CreateAuthor.Arn
+  CreateAuthorIamRole:
+    Description: "Implicit IAM Role created for CreateAuthor"
+    Value: !GetAtt CreateAuthorRole.Arn
+
+

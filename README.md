@@ -70,9 +70,9 @@ la DynamoDB.
      aws dynamodb create-table --table-name reviews --attribute-definitions AttributeName=reviewid,AttributeType=S --key-schema AttributeName=reviewid,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://127.0.0.1:8000
    ```
 
-8. Lanzamos la aplicación en local con la configuración correspondiente
+8. Lanzamos la aplicación en local 
     ```shell
-    sam local start-api --env-vars env/env.json
+    sam local start-api 
     ```
 9. Se comprueba que ejecutando en local las peticiones postman funcionan correctamente
 10. Se despliega la aplicación en AWS

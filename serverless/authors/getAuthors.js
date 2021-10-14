@@ -1,12 +1,12 @@
 const { docClient } = require('../configuration/dbConnection');
 const { sendResponse } = require('../sendResponse');
-const table = 'authors'
+const authorsTable = 'authors'
 
 exports.handler = async(event, context, callback) => {
 
     try {
         const params = {
-            TableName: table,
+            TableName: authorsTable,
             ProjectionExpression: "authorid, authorname, biography, birthYear"
         }
 

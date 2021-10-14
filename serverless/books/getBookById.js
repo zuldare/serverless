@@ -2,6 +2,7 @@ const { docClient } = require('../configuration/dbConnection');
 const { sendResponse } = require('../sendResponse');
 const tableBooks = 'books';
 const tableAuthors = 'authors';
+const tableReviews = 'reviews';
 
 exports.handler = async (event, context, callback) => {
     try{
@@ -14,8 +15,7 @@ exports.handler = async (event, context, callback) => {
         };
         const res = await docClient.get(params).promise();
 
-        // const reviews = await getReviews(bookId);
-
+        // Authors
         params = {
             TableName: tableAuthors,
             Key: {
@@ -25,9 +25,20 @@ exports.handler = async (event, context, callback) => {
         };
         const resAuthor = await docClient.get(params).promise();
 
+        // Review
+        params = {
+            TableName: tableReviews,
+            Key: {
+                "bookid": res.Item.bookId,
+            }
+        };
+       const resReview = await docClient.get(params).promise();
+
+
        const newResponse = {
            book: res.Item,
-           author: resAuthor.Item
+           author: resAuthor.Item,
+           reviews: resReview.Item
        };
 
         sendResponse(200, newResponse, callback);
@@ -35,7 +46,4 @@ exports.handler = async (event, context, callback) => {
         sendResponse(500, err, callback);
         return err;
     }
-
-
-    getAuthorById = async()
 };
