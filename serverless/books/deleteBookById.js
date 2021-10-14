@@ -6,24 +6,35 @@ const tableReviews = 'books';
 exports.handler = async (event, context, callback) => {
 
     try{
+        let bookid = event.pathParameters.id;
         let params = {
             TableName: tableReviews,
             Key: {
-                "bookid": event.pathParameters.id
-            }
+                "bookid": bookid
+            },
+            ReturnValues: "ALL_OLD"
         };
 
         const resBook = await docClient.get(params).promise();
 
-        if (resBook.Count !== 0){
-
+        if (resBook.Item === undefined) {
+            sendResponse(404, 'Book, Not found', callback);
+        } else {
             // Review
+            // params = {
+            //     TableName: tableReviews,
+            //     Key: {
+            //         "bookid": res.Item.bookId,
+            //     },
+            //
+            // };
+
             params = {
                 TableName: tableReviews,
-                Key: {
-                    "bookid": res.Item.bookId,
-                }
-            };
+                ProjectionExpression: "bookid"
+            }
+
+
             const resReview = await docClient.get(params).promise();
 
             for (let review of resReview.Item){
@@ -33,9 +44,7 @@ exports.handler = async (event, context, callback) => {
 
             const res = await docClient.delete(params).promise();
 
-            sendResponse(200, resBook.Item.bookid, callback);
-        } else {
-            sendResponse(404, 'Not found', callback);
+            sendResponse(200, resBook.Item, callback);
         }
 
     } catch (err) {
