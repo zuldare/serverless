@@ -10,14 +10,15 @@ exports.handler = async (event, context, callback) => {
             TableName: table,
             Key: {
                 "authorid": event.pathParameters.id
-            }
+            },
+            ReturnValues: "ALL_OLD"
         };
 
         const resAuthor = await docClient.get(params).promise();
 
         if (resAuthor.Count !== 0){
             const res = await docClient.delete(params).promise();
-            sendResponse(200, resAuthor.Item.authorid, callback);
+            sendResponse(200, resAuthor, callback);
         } else {
             sendResponse(200, null, callback);
         }

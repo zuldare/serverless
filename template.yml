@@ -171,6 +171,10 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref BooksTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AuthorsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ReviewsTable
 
   DeleteBookById:
     Type: AWS::Serverless::Function
