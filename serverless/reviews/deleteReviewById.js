@@ -11,7 +11,8 @@ exports.handler = async (event, context, callback) => {
             TableName: tableReviews,
             Key: {
                 "reviewid": reviewid
-            }
+            },
+            ReturnValues: "ALL_OLD"
         };
 
         const resReview = await docClient.get(params).promise();
@@ -20,7 +21,7 @@ exports.handler = async (event, context, callback) => {
             sendResponse(404, 'Review ' + reviewid +'not found', callback);
         } else {
             const res = await docClient.delete(params).promise();
-            sendResponse(200, resReview.Item.reviewid, callback);
+            sendResponse(200, resReview.Item, callback);
         }
 
     } catch (err) {
