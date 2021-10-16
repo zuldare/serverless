@@ -26,27 +26,25 @@ exports.handler = async (event, context, callback) => {
                 "authorid": resBooks.Item.authorid
             }
         };
-        const resAuthor = await docClient.get(params).promise();
+       const resAuthor = await docClient.get(params).promise();
 
-// TODO NAT!!!!
-        // Review
-       //  params = {
-       //      TableName: tableReviews,
-       //      ExpressionAttributeValues: {
-       //          ':b': bookId
-       //      },
-       //      Key: {
-       //          "reviewid": reviewid
-       //      },
-       //      KeyConditionExpression: 'bookid = :b'
-       //  };
-       // const resReview = await docClient.get(params).promise();
-
+       // Reviews
+       // params = {
+       //     TableName: tableReviews,
+       //     ConditionExpression: '#a = :BOOKID',
+       //     ExpressionAttributeNames: {'#a' : 'bookid' },
+       //     ExpressionAttributeValues: {
+       //         ":BOOKID": event.pathParameters.id
+       //     }
+       //
+       // }
+       // const resReview = await docClient.scan(params).promise();
 
        const newResponse = {
            book: resBooks.Item,
            author: resAuthor.Item,
-          // reviews: resReview.Item
+           // reviews: resReview.Items
+           reviews: []
        };
 
         sendResponse(200, newResponse, callback);

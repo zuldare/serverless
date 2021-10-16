@@ -109,9 +109,6 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref BooksTable
 
-
-
-
   DeleteAuthorById:
     Type: AWS::Serverless::Function
     Properties:
@@ -263,35 +260,82 @@ Outputs:
     Description: "API Gateway endpoint URL for Reviews API"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/api/v1/reviews/"
 
-
-
-
   GetAuthors:
     Description: "GetAuthors lambda function ARN"
     Value: !GetAtt GetAuthors.Arn
   GetAuthorsIamRole:
     Description: "GetAuthors role for function GetAuthors"
     Value: !GetAtt GetAuthorsRole.Arn
-#
-#  GetAuthorById:
-#    Description: "GetAuthorById Lambda Function ARN"
-#    Value: !GetAtt GetAuthorById.Arn
-#  GetAuthorByIdIamRole:
-#    Description: "Implicit IAM Role created for GetAuthorById"
-#    Value: !GetAtt GetAuthorByIdRole.Arn
-#
-#  DeleteAuthorById:
-#    Description: "DeleteAuthorById Lambda Function ARN"
-#    Value: !GetAtt DeleteAuthorById.Arn
-#  DeleteAuthorByIdIamRole:
-#    Description: "Implicit IAM Role created for DeleteAuthorById"
-#    Value: !GetAtt DeleteAuthorByIdRole.Arn
-#
-#  CreateAuthor:
-#    Description: "CreateAuthor Lambda Function ARN"
-#    Value: !GetAtt CreateAuthor.Arn
-#  CreateAuthorIamRole:
-#    Description: "Implicit IAM Role created for CreateAuthor"
-#    Value: !GetAtt CreateAuthorRole.Arn
-#
-#
+
+  GetAuthorById:
+    Description: "GetAuthorById Lambda Function ARN"
+    Value: !GetAtt GetAuthorById.Arn
+  GetAuthorByIdIamRole:
+    Description: "Implicit IAM Role created for GetAuthorById"
+    Value: !GetAtt GetAuthorByIdRole.Arn
+
+  DeleteAuthorById:
+    Description: "DeleteAuthorById Lambda Function ARN"
+    Value: !GetAtt DeleteAuthorById.Arn
+  DeleteAuthorByIdIamRole:
+    Description: "Implicit IAM Role created for DeleteAuthorById"
+    Value: !GetAtt DeleteAuthorByIdRole.Arn
+
+  CreateAuthor:
+    Description: "CreateAuthor Lambda Function ARN"
+    Value: !GetAtt CreateAuthor.Arn
+  CreateAuthorIamRole:
+    Description: "Implicit IAM Role created for CreateAuthor"
+    Value: !GetAtt CreateAuthorRole.Arn
+
+
+#Books
+  GetBooks:
+    Description: "GetBooks lambda function ARN"
+    Value: !GetAtt GetBooks.Arn
+  GetBooksIamRole:
+    Description: "GetAuthors role for function GetAuthors"
+    Value: !GetAtt GetBooksRole.Arn
+
+  GetBookById:
+    Description: "GetBookById Lambda Function ARN"
+    Value: !GetAtt GetBookById.Arn
+  GetBookByIdIamRole:
+    Description: "Implicit IAM Role created for GetBookById"
+    Value: !GetAtt GetBookByIdRole.Arn
+
+  DeleteBookById:
+    Description: "DeleteBookById Lambda Function ARN"
+    Value: !GetAtt DeleteBookById.Arn
+  DeleteBookByIdIamRole:
+    Description: "Implicit IAM Role created for DeleteBookById"
+    Value: !GetAtt DeleteBookByIdRole.Arn
+
+  CreateBook:
+    Description: "CreateBook Lambda Function ARN"
+    Value: !GetAtt CreateBook.Arn
+  CreateBookIamRole:
+    Description: "Implicit IAM Role created for CreateBook"
+    Value: !GetAtt CreateBookRole.Arn
+
+# Reviews
+  CreateReview:
+    Description: "CreateReview Lambda Function ARN"
+    Value: !GetAtt CreateReview.Arn
+  CreateReviewIamRole:
+    Description: "Implicit IAM Role created for CreateReview"
+    Value: !GetAtt CreateReview.Arn
+
+  DeleteReviewById:
+    Description: "DeleteReviewById Lambda Function ARN"
+    Value: !GetAtt DeleteReviewById.Arn
+  DeleteReviewByIdIamRole:
+    Description: "Implicit IAM Role created for DeleteReviewById"
+    Value: !GetAtt DeleteReviewByIdRole.Arn
+
+  GetReviews:
+    Description: "GetReviews lambda function ARN"
+    Value: !GetAtt GetReviews.Arn
+  GetReviewsIamRole:
+    Description: "GetReviews role for function GetReviews"
+    Value: !GetAtt GetReviewsRole.Arn
